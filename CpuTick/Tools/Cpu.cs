@@ -90,7 +90,7 @@ public class CpuTools
         var cache = new CacheSize();
         try
         {
-            var searcher = new ManagementObjectSearcher(VmiNameSpaces.CacheSize, Vmi.CacheSize);
+            var searcher = new ManagementObjectSearcher(VmiNameSpaces.CacheSize, VmiQueries.CacheSize);
             foreach (ManagementObject obj in searcher.Get())
             {
                 cache.L2CacheSize = int.TryParse(obj["L2CacheSize"]?.ToString(), out int l2) ? l2 : 0;
