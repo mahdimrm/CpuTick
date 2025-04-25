@@ -11,16 +11,28 @@ class Program
         var cpuTools = new CpuTools();
         var cpuInfo = cpuTools.GetCpuInfo();
 
-        int tasksCount = PromptForTaskCount(cpuInfo);
+        bool keepRunning = true;
 
-        RunBenchmark(tasksCount);
+        while (keepRunning)
+        {
+            int tasksCount = PromptForTaskCount(cpuInfo);
 
+            RunBenchmark(tasksCount);
+
+            Console.WriteLine("\nDo you want to run another test? (Y/N):");
+            var input = Console.ReadLine()?.Trim().ToLower();
+
+            if (input != "y" && input != "yes")
+                keepRunning = false;
+        }
+
+        Console.WriteLine("Goodbye Friend");
         Console.ReadKey();
     }
 
     static int PromptForTaskCount(CpuModel cpuInfo)
     {
-        Console.WriteLine("Please enter the number of tasks:");
+        Console.WriteLine("\nPlease enter the number of tasks:");
 
         if (!int.TryParse(Console.ReadLine(), out int tasksCount) || tasksCount <= 0)
         {
@@ -42,6 +54,6 @@ class Program
         heavyTask.Run(tasksCount);
         stopwatch.Stop();
 
-        Console.WriteLine($"Tasks Completed: {tasksCount} | Elapsed Time: {stopwatch.Elapsed.TotalMilliseconds:N0} ms");
+        Console.WriteLine($"\nTasks Completed: {tasksCount} | Elapsed Time: {stopwatch.Elapsed.TotalMilliseconds:N0} ms");
     }
 }
